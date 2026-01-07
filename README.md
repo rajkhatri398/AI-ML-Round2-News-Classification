@@ -35,51 +35,34 @@ Categories such as **world** and **health** were also experimented with. While t
 
 ## Folder Structure Explanation
 
+```
 news_classification_project/
-
 │
-
 ├── data/
-
 │   ├── raw/
-
 │   │   └── bbc_news.csv          # Original BBC News dataset
-
-│   └── processed/               # Cleaned and processed data
-
+│   └── processed/
+│       └── cleaned_data.csv      # Cleaned and preprocessed data
 │
-
 ├── src/
-
-│   ├── config.py                # Centralized configuration (paths, constants)
-
-│   ├── data_preprocessing.py    # Data loading, cleaning, category extraction
-
-│   ├── feature_engineering.py   # TF-IDF feature extraction
-
-│   ├── train.py                 # Model training logic
-
-│   └── evaluate.py              # Model evaluation and metrics
-
+│   ├── config.py                 # Configuration and constants
+│   ├── data_preprocessing.py     # Data loading and text cleaning
+│   ├── feature_engineering.py    # TF-IDF vectorization
+│   ├── train.py                  # Model training (3 models)
+│   └── evaluate.py               # Model evaluation and metrics
 │
-
-├── models/                      # Saved trained models (.pkl files)
-
+├── models/
+│   ├── logistic_regression.pkl    # Trained Logistic Regression
+│   ├── naive_bayes.pkl            # Trained Naive Bayes
+│   └── linear_svm.pkl             # Trained Linear SVM
 │
-
 ├── results/
-
-│   └── metrics.txt              # Accuracy, precision, recall, F1-score reports
-
+│   └── metrics.txt               # Evaluation metrics for all models
 │
-
-├── main.py                      # Pipeline entry point
-
-├── requirements.txt             # Project dependencies
-
-└── README.md                    # Project documentation
-
-
+├── main.py                       # Entry point - runs full pipeline
+├── requirements.txt              # Python dependencies
+└── README.md                     # This file
+```
 
 ---
 
