@@ -1,14 +1,15 @@
+
 # BBC News Article Classification Using Machine Learning
 
 ## Project Overview
-This project implements a machine learning pipeline to classify BBC news articles into different categories. The solution preprocesses raw news data, extracts features using TF-IDF vectorization, trains three different ML models (Logistic Regression, Naive Bayes, and Linear SVM), and evaluates their performance using accuracy metrics and confusion matrices.
+This project implements a machine learning pipeline to classify BBC news articles. After preprocessing, only three categories (business, entertainment, technology) had enough samples to be included in the final classification. The pipeline preprocesses raw news data, extracts features using TF-IDF vectorization, trains three ML models (Logistic Regression, Naive Bayes, and Linear SVM), and evaluates their performance using accuracy and classification reports.
 
 ## Dataset Source
 **BBC News Dataset** - A publicly available dataset containing news articles from BBC with category labels. The dataset is available at:
-- Data URL: Pre-loaded from `data/raw/bbc_news.csv`
+- Data path: `data/raw/bbc_news.csv`
 - Total articles: 42,115
-- Categories: Extracted from URL paths (e.g., business, politics, sports, tech, entertainment)
-- Article structure: Columns include title, description, publication date, and category link
+- Categories: Extracted from the `link` column (business, entertainment, technology after filtering)
+- Article structure: Columns include title, description, publication date, and link
 
 ## Folder Structure
 
@@ -19,10 +20,9 @@ news_classification_project/
 │   ├── raw/
 │   │   └── bbc_news.csv          # Original BBC News dataset
 │   └── processed/
-│       └── data.csv              # Cleaned and preprocessed data
+│       └── cleaned_data.csv      # Cleaned and preprocessed data
 │
 ├── src/
-│   ├── __init__.py               # Package initialization
 │   ├── config.py                 # Configuration and constants
 │   ├── data_preprocessing.py     # Data loading and text cleaning
 │   ├── feature_engineering.py    # TF-IDF vectorization
@@ -30,9 +30,9 @@ news_classification_project/
 │   └── evaluate.py               # Model evaluation and metrics
 │
 ├── models/
-│   ├── logistic_regression_classifier.pkl    # Trained Logistic Regression
-│   ├── naive_bayes_classifier.pkl            # Trained Naive Bayes
-│   └── svm_classifier.pkl                    # Trained Linear SVM
+│   ├── logistic_regression.pkl    # Trained Logistic Regression
+│   ├── naive_bayes.pkl            # Trained Naive Bayes
+│   └── linear_svm.pkl             # Trained Linear SVM
 │
 ├── results/
 │   └── metrics.txt               # Evaluation metrics for all models
@@ -54,6 +54,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
+
 This will execute:
 - Data preprocessing and cleaning
 - Feature engineering (TF-IDF vectorization)
@@ -61,42 +62,40 @@ This will execute:
 - Model evaluation and metrics generation
 
 ### 3. View Results
-Check `results/metrics.txt` for detailed evaluation metrics of all three models.
+Check `results/metrics.txt` for detailed evaluation metrics and classification reports for all three models.
 
 ## Models Used
 
-The project implements and compares **3 different classification models**:
+
+The project implements and compares **three different classification models**:
 
 1. **Logistic Regression**
-   - Algorithm: Linear classifier using logistic function
+   - Linear classifier using logistic function
    - Parameters: max_iter=1000
-   - Best for: Fast training and interpretability
-
 2. **Naive Bayes**
-   - Algorithm: MultinomialNB for text classification
+   - MultinomialNB for text classification
    - Probabilistic approach assuming feature independence
-   - Best for: Efficiency and baseline comparisons
-
 3. **Linear SVM (Support Vector Machine)**
-   - Algorithm: LinearSVC with linear kernel
+   - LinearSVC with linear kernel
    - Parameters: max_iter=2000
-   - Best for: High-dimensional sparse text data
 
 ## Final Results Summary
 
+
+
 **Model Performance on Test Set (20% split):**
 
-| Model | Accuracy | Best/Notes |
-|-------|----------|-----------|
-| Logistic Regression | 95.77% | Strong baseline |
-| Naive Bayes | 95.63% | Fast training |
-| **Linear SVM** | **96.44%** | ⭐ **Best Model** |
+| Model                 | Accuracy | Notes           |
+|-----------------------|----------|-----------------|
+| Logistic Regression   | 0.9221   | Strong baseline |
+| Naive Bayes           | 0.8978   | Fast training   |
+| **Linear SVM**        | 0.9180   | Best SVM result |
 
 **Key Metrics:**
-- Dataset: 42,115 articles, extracted 33,687 after preprocessing
+- Dataset: 42,115 articles, filtered to 3 categories after preprocessing
 - Train-Test Split: 80-20
-- Feature Extraction: TF-IDF (max 5000 features)
-- Evaluation: Accuracy score and Confusion Matrix
+- Feature Extraction: TF-IDF (word+char, max 12,000 word features)
+- Evaluation: Accuracy score and classification report
 
 ## Project Architecture
 
@@ -112,40 +111,50 @@ Preprocessed Data → TF-IDF Features → Model Training → Model Evaluation �
 
 ### Key Components
 
+
 **config.py**
 - Centralized configuration for paths and hyperparameters
-- Model paths dictionary for easy access
 - Test size and random state for reproducibility
+
+
 
 **data_preprocessing.py**
 - Loads CSV data using pandas
-- Handles missing values with dropna()
+- Handles missing values
 - Text cleaning: lowercasing, special character removal
 - Stopword removal using NLTK
-- Category extraction from URL patterns
+- Category extraction from the `link` column
+- Filters to categories with >200 samples (business, entertainment, technology remain)
+
+
 
 **feature_engineering.py**
-- Implements TF-IDF vectorizer
+- Implements TF-IDF vectorizer (word and char n-grams)
 - Converts text to numerical format (sparse matrix)
-- Maximum 5000 features
+- Maximum 12,000 word features, char n-grams (3-5)
+
+
 
 **train.py**
-- Trains all 3 models on same training set
-- Saves models using joblib (pickled format)
-- Includes vectorizer and test data for evaluation
+- Trains all 3 models on the same training set
+- Saves models as logistic_regression.pkl, naive_bayes.pkl, linear_svm.pkl
+
+
 
 **evaluate.py**
 - Loads trained models and vectorizer
-- Transforms test data using same vectorizer
-- Calculates accuracy and confusion matrix
+- Transforms test data using the same vectorizer
+- Calculates accuracy and classification report
 - Compares all models and identifies best performer
 - Saves comprehensive metrics to file
+
 
 **main.py**
 - Entry point orchestrating the full pipeline
 - Calls preprocessing → training → evaluation sequentially
 
 ## Code Quality and Architecture
+
 
 ✅ **Folder Structure**: Follows industry standards with separate data, src, models, and results directories
 ✅ **Modularity**: Each task separated into dedicated functions and files
@@ -173,20 +182,16 @@ Preprocessed Data → TF-IDF Features → Model Training → Model Evaluation �
 - nltk: Natural language processing (stopwords)
 - joblib: Model serialization
 
+
 See `requirements.txt` for exact versions.
 
 ## How to Interpret Results
 
+
 The metrics.txt file contains:
 - **Accuracy**: Percentage of correct predictions
-- **Confusion Matrix**: Shows True Positives, True Negatives, False Positives, False Negatives
+- **Classification Report**: Precision, recall, f1-score for each class
 - **Best Model**: Identified by highest accuracy score
-
-**Confusion Matrix Format:**
-```
-[[TN   FP]
- [FN   TP]]
-```
 
 ## Reproducibility
 
@@ -205,14 +210,17 @@ To get identical results:
 5. **Ensemble Methods**: Combine multiple models for better predictions
 6. **Class Imbalance Handling**: Address skewed category distributions
 
+
 ## Notes
 
+- Only three categories (business, entertainment, technology) are present in the final results due to filtering out classes with fewer than 200 samples.
 - All models trained on same preprocessed data for fair comparison
 - Test set is held out during training to prevent overfitting
 - Vectorizer is fit only on training data to prevent data leakage
 - Results are saved automatically for future reference
 
 ---
+
 
 **Assignment Completion Status**: ✅ All requirements met
 **Project Runnable**: ✅ Yes - `python main.py`
