@@ -139,7 +139,7 @@ Logistic Regression was selected as the final model as it achieved the highest a
 The project demonstrates the importance of proper preprocessing, feature engineering, and evaluation when working with real-world text datasets.
 
 ## Final Summary
-```
+
 This project implements a complete machine learning pipeline for classifying BBC news articles using NLP techniques. News categories were initially selected as business, politics, sport, technology, and entertainment; however, categories with very few samples such as politics and sport were filtered out during preprocessing to ensure stable training. Dominant categories like world and health were tested but excluded in the final setup due to class imbalance. After TF-IDF feature extraction, multiple models were trained and evaluated, with Logistic Regression achieving the best balanced performance at around 92% accuracy. Overall, the project demonstrates strong fundamentals in text preprocessing, category selection, model comparison, and reproducible ML workflows.
 
 
