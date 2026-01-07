@@ -90,25 +90,25 @@ This command performs preprocessing, feature engineering, model training, and ev
 
 The following Machine Learning models were implemented and compared:
 
-   Logistic Regression
+  - Logistic Regression
 
-   Naive Bayes
-
-   Linear Support Vector Machine (Linear SVM)
+  - Naive Bayes
+ 
+  - Linear Support Vector Machine (Linear SVM)
 
 Multiple models were trained to compare performance and select the most suitable model.
 
 ## Final Result Summary
 
 Logistic Regression (Final Selected Model)
+  
+  - Accuracy: 92.21%
 
-Accuracy: 92.21%
+  - Precision: 92.12%
 
-Precision: 92.12%
+  - Recall: 92.21%
 
-Recall: 92.21%
-
-F1-score: 92.16%
+  - F1-score: 92.16%
 
 Confusion Matrix
 ```
@@ -142,11 +142,11 @@ The project demonstrates the importance of proper preprocessing, feature enginee
 
 Assignment: AI/ML Round-2 – News Classification
 
-Pipeline Executable: Yes (python main.py)
+  - Pipeline Executable: Yes (python main.py)
 
-Evaluation Metrics Used: Accuracy, Precision, Recall, F1-score, Confusion Matrix
+  - Evaluation Metrics Used: Accuracy, Precision, Recall, F1-score, Confusion Matrix
 
-Status: ✅ All assignment requirements satisfied
+   - Status: ✅ All assignment requirements satisfied
 
 ## Final Notes
 
