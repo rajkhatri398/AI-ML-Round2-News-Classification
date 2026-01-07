@@ -37,31 +37,34 @@ Categories such as **world** and **health** were also experimented with. While t
 
 ```
 news_classification_project/
-│
 ├── data/
+│   ├── processed/
+│   │   ├── cleaned_data.csv            # Cleaned and preprocessed data
+│   │   ├── X_test_tfidf.pkl            # TF-IDF test features
+│   │   ├── X_test.pkl                  # Test features
+│   │   ├── X_train_tfidf.pkl           # TF-IDF train features
+│   │   ├── X_train.pkl                 # Train features
+│   │   ├── y_test.pkl                  # Test labels
+│   │   ├── y_train.pkl                 # Train labels
 │   ├── raw/
-│   │   └── bbc_news.csv          # Original BBC News dataset
-│   └── processed/
-│       └── cleaned_data.csv      # Cleaned and preprocessed data
-│
-├── src/
-│   ├── config.py                 # Configuration and constants
-│   ├── data_preprocessing.py     # Data loading and text cleaning
-│   ├── feature_engineering.py    # TF-IDF vectorization
-│   ├── train.py                  # Model training (3 models)
-│   └── evaluate.py               # Model evaluation and metrics
-│
+│   │   └── bbc_news.csv                # Original BBC News dataset
 ├── models/
-│   ├── logistic_regression.pkl    # Trained Logistic Regression
-│   ├── naive_bayes.pkl            # Trained Naive Bayes
-│   └── linear_svm.pkl             # Trained Linear SVM
-│
+│   ├── linear_svm.pkl                  # Trained Linear SVM
+│   ├── logistic_regression.pkl         # Trained Logistic Regression
+│   └── naive_bayes.pkl                 # Trained Naive Bayes
 ├── results/
-│   └── metrics.txt               # Evaluation metrics for all models
-│
-├── main.py                       # Entry point - runs full pipeline
-├── requirements.txt              # Python dependencies
-└── README.md                     # This file
+│   └── metrics.txt                     # Evaluation metrics for all models
+├── src/
+│   ├── __pycache__/
+│   ├── config.py                       # Configuration and constants
+│   ├── data_preprocessing.py           # Data loading and text cleaning
+│   ├── evaluate.py                     # Model evaluation and metrics
+│   ├── feature_engineering.py          # TF-IDF vectorization
+│   ├── train.py                        # Model training (3 models)
+├── .gitignore
+├── main.py                             # Entry point - runs full pipeline
+├── README.md                           # This file
+├── requirements.txt                    # Python dependencies
 ```
 
 ---
