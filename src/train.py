@@ -1,42 +1,45 @@
-﻿import pandas as pd
+import os
 import joblib
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
-from src.feature_engineering import get_vectorizer
-from src.config import PROCESSED_DATA_PATH, MODEL_PATHS, TEST_SIZE, RANDOM_STATE
+from src.config import *
 
-def train_model():
-    df = pd.read_csv(PROCESSED_DATA_PATH)
+def train_all_models():
+    print("[TRAIN] Training models...")
 
-    X = df['text']
-    y = df['category']
+    X_train = joblib.load(X_TRAIN_TFIDF_PATH)
+    y_train = joblib.load(Y_TRAIN_PATH)
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE
+    os.makedirs(MODELS_DIR, exist_ok=True)
+
+    lr = LogisticRegression(
+        max_iter=10000,
+        C=2.5,
+        solver="lbfgs",
+        class_weight="balanced",
+        n_jobs=-1
     )
 
-    vectorizer = get_vectorizer()
-    X_train_vec = vectorizer.fit_transform(X_train)
+    # Naive Bayes (no max_iter concept)
+    nb = MultinomialNB()
 
-    # Train Logistic Regression model
-    lr_model = LogisticRegression(max_iter=1000)
-    lr_model.fit(X_train_vec, y_train)
-    joblib.dump((lr_model, vectorizer, X_test, y_test), MODEL_PATHS['logistic_regression'])
-    print(' Logistic Regression model trained successfully')
+    # Linear SVM – max iterations
+    svm = LinearSVC(
+        C=3.0,
+        class_weight="balanced",
+        max_iter=10000,
+        tol=1e-5,
+        dual=False
+    )
 
-    # Train Naive Bayes model
-    nb_model = MultinomialNB()
-    nb_model.fit(X_train_vec, y_train)
-    joblib.dump((nb_model, vectorizer, X_test, y_test), MODEL_PATHS['naive_bayes'])
-    print(' Naive Bayes model trained successfully')
 
-    # Train Linear SVM model
-    svm_model = LinearSVC(max_iter=2000)
-    svm_model.fit(X_train_vec, y_train)
-    joblib.dump((svm_model, vectorizer, X_test, y_test), MODEL_PATHS['svm'])
-    print(' Linear SVM model trained successfully')
+    lr.fit(X_train, y_train)
+    nb.fit(X_train, y_train)
+    svm.fit(X_train, y_train)
 
-if __name__ == '__main__':
-    train_model()
+    joblib.dump(lr, os.path.join(MODELS_DIR, "logistic_regression.pkl"))
+    joblib.dump(nb, os.path.join(MODELS_DIR, "naive_bayes.pkl"))
+    joblib.dump(svm, os.path.join(MODELS_DIR, "linear_svm.pkl"))
+
+    print("[TRAIN] Models saved successfully")

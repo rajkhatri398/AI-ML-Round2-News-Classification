@@ -1,21 +1,69 @@
-=== MODEL EVALUATION RESULTS ===
 
-Logistic Regression Model:
-Accuracy: 0.9577464788732394
+Logistic Regression
+Accuracy  : 0.9221
+Precision : 0.9212
+Recall    : 0.9221
+F1-score  : 0.9216
 Confusion Matrix:
-[[1290    0]
- [  57    2]]
+[[499   8  22]
+ [  8 358   7]
+ [ 18  14  54]]
 
-Naive Bayes Model:
-Accuracy: 0.9562638991845812
+Classification Report:
+               precision    recall  f1-score   support
+
+     business       0.95      0.94      0.95       529
+entertainment       0.94      0.96      0.95       373
+   technology       0.65      0.63      0.64        86
+
+     accuracy                           0.92       988
+    macro avg       0.85      0.84      0.85       988
+ weighted avg       0.92      0.92      0.92       988
+
+------------------------------------------------------------
+
+Naive Bayes
+Accuracy  : 0.8978
+Precision : 0.8928
+Recall    : 0.8978
+F1-score  : 0.8748
 Confusion Matrix:
-[[1290    0]
- [  59    0]]
+[[512  14   3]
+ [ 12 361   0]
+ [ 54  18  14]]
 
-Linear SVM Model:
-Accuracy: 0.9644180874722016
+Classification Report:
+               precision    recall  f1-score   support
+
+     business       0.89      0.97      0.93       529
+entertainment       0.92      0.97      0.94       373
+   technology       0.82      0.16      0.27        86
+
+     accuracy                           0.90       988
+    macro avg       0.88      0.70      0.71       988
+ weighted avg       0.89      0.90      0.87       988
+
+------------------------------------------------------------
+
+Linear SVM
+Accuracy  : 0.9180
+Precision : 0.9133
+Recall    : 0.9180
+F1-score  : 0.9149
 Confusion Matrix:
-[[1289    1]
- [  47   12]]
+[[506   6  17]
+ [ 13 355   5]
+ [ 24  16  46]]
 
-Best Model: svm (Accuracy: 0.9644)
+Classification Report:
+               precision    recall  f1-score   support
+
+     business       0.93      0.96      0.94       529
+entertainment       0.94      0.95      0.95       373
+   technology       0.68      0.53      0.60        86
+
+     accuracy                           0.92       988
+    macro avg       0.85      0.81      0.83       988
+ weighted avg       0.91      0.92      0.91       988
+
+------------------------------------------------------------

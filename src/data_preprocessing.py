@@ -1,34 +1,71 @@
-﻿import pandas as pd
+import os
 import re
+import pandas as pd
 import nltk
+import joblib
+from sklearn.model_selection import train_test_split
 from nltk.corpus import stopwords
-from src.config import DATA_PATH, PROCESSED_DATA_PATH
+from src.config import *
 
-nltk.download('stopwords')
+nltk.download("stopwords", quiet=True)
+STOPWORDS = set(stopwords.words("english"))
+
+def extract_category_from_link(link):
+    if not isinstance(link, str):
+        return "unknown"
+    match = re.search(r"/news/([a-zA-Z\-]+)", link)
+    if match:
+        return match.group(1).split("-")[0]
+    return "unknown"
 
 def clean_text(text):
     text = text.lower()
-    text = re.sub(r'[^a-zA-Z ]', '', text)
-    words = text.split()
-    stop_words = set(stopwords.words('english'))
-    words = [w for w in words if w not in stop_words]
-    return ' '.join(words)
+    text = re.sub(r"http\S+|www\S+", "", text)
+    text = re.sub(r"[^a-z\s]", " ", text)
+    tokens = text.split()
+    tokens = [t for t in tokens if t not in STOPWORDS and len(t) > 2]
+    return " ".join(tokens)
 
-def preprocess():
-    df = pd.read_csv(DATA_PATH)
-    df.dropna(inplace=True)
+def load_and_preprocess():
+    print("[DATA] Loading raw data from", RAW_DATA_PATH)
 
-    # Use description as text column since it contains the news content
-    df['text'] = df['description'].apply(clean_text)
-    
-    # Extract category from the link (BBC news categories)
-    df['category'] = df['link'].str.extract(r'bbc\.com/news/([^/]+)')
-    
-    # Keep only text and category columns
-    df = df[['text', 'category']].dropna()
+    df = pd.read_csv(RAW_DATA_PATH)
+    df.fillna("", inplace=True)
 
-    df.to_csv(PROCESSED_DATA_PATH, index=False)
-    print(' Data preprocessing completed')
+    df["text"] = df["title"] + " " + df["description"]
+    df["clean_text"] = df["text"].apply(clean_text)
+    df["category"] = df["link"].apply(extract_category_from_link)
 
-if __name__ == '__main__':
-    preprocess()
+    valid_categories = [
+    "business",
+    "politics",
+    "sport",
+    "technology",
+    "entertainment"
+]
+
+
+
+    df = df[df["category"].isin(valid_categories)]
+
+    # Remove very small classes
+    df = df.groupby("category").filter(lambda x: len(x) > 200)
+
+    X = df["clean_text"]
+    y = df["category"]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y,
+        test_size=TEST_SIZE,
+        random_state=RANDOM_STATE,
+        stratify=y
+    )
+
+    os.makedirs(PROCESSED_DIR, exist_ok=True)
+
+    joblib.dump(X_train, X_TRAIN_PATH)
+    joblib.dump(X_test, X_TEST_PATH)
+    joblib.dump(y_train, Y_TRAIN_PATH)
+    joblib.dump(y_test, Y_TEST_PATH)
+
+    print("[DATA] Preprocessing completed successfully")

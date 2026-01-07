@@ -1,60 +1,55 @@
-﻿import joblib
-from sklearn.metrics import accuracy_score, confusion_matrix
-from src.config import MODEL_PATHS, METRICS_PATH
+import os
+import joblib
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    confusion_matrix,
+    classification_report
+)
+from src.config import *
 
-def evaluate_model():
-    results = {}
-    
-    # Evaluate Logistic Regression model
-    lr_model, vectorizer, X_test, y_test = joblib.load(MODEL_PATHS['logistic_regression'])
-    X_test_vec = vectorizer.transform(X_test)
-    lr_pred = lr_model.predict(X_test_vec)
-    lr_acc = accuracy_score(y_test, lr_pred)
-    lr_cm = confusion_matrix(y_test, lr_pred)
-    results['logistic_regression'] = {'accuracy': lr_acc, 'confusion_matrix': lr_cm}
-    print(' Logistic Regression evaluation completed')
-    print(f'   Accuracy: {lr_acc:.4f}')
-    
-    # Evaluate Naive Bayes model
-    nb_model, vectorizer, X_test, y_test = joblib.load(MODEL_PATHS['naive_bayes'])
-    X_test_vec = vectorizer.transform(X_test)
-    nb_pred = nb_model.predict(X_test_vec)
-    nb_acc = accuracy_score(y_test, nb_pred)
-    nb_cm = confusion_matrix(y_test, nb_pred)
-    results['naive_bayes'] = {'accuracy': nb_acc, 'confusion_matrix': nb_cm}
-    print(' Naive Bayes evaluation completed')
-    print(f'   Accuracy: {nb_acc:.4f}')
-    
-    # Evaluate Linear SVM model
-    svm_model, vectorizer, X_test, y_test = joblib.load(MODEL_PATHS['svm'])
-    X_test_vec = vectorizer.transform(X_test)
-    svm_pred = svm_model.predict(X_test_vec)
-    svm_acc = accuracy_score(y_test, svm_pred)
-    svm_cm = confusion_matrix(y_test, svm_pred)
-    results['svm'] = {'accuracy': svm_acc, 'confusion_matrix': svm_cm}
-    print(' Linear SVM evaluation completed')
-    print(f'   Accuracy: {svm_acc:.4f}')
-    
-    # Determine best model
-    best_model_name = max(results, key=lambda k: results[k]['accuracy'])
-    best_accuracy = results[best_model_name]['accuracy']
-    
-    # Write results to file
-    with open(METRICS_PATH, 'w') as f:
-        f.write('=== MODEL EVALUATION RESULTS ===\n\n')
-        f.write('Logistic Regression Model:\n')
-        f.write(f'Accuracy: {lr_acc}\n')
-        f.write(f'Confusion Matrix:\n{lr_cm}\n\n')
-        f.write('Naive Bayes Model:\n')
-        f.write(f'Accuracy: {nb_acc}\n')
-        f.write(f'Confusion Matrix:\n{nb_cm}\n\n')
-        f.write('Linear SVM Model:\n')
-        f.write(f'Accuracy: {svm_acc}\n')
-        f.write(f'Confusion Matrix:\n{svm_cm}\n\n')
-        f.write(f'Best Model: {best_model_name} (Accuracy: {best_accuracy:.4f})')
+def evaluate_all_models():
+    print("[INFO] Evaluating models...")
 
-    print(f'\n All models evaluated successfully')
-    print(f'Best Model: {best_model_name} (Accuracy: {best_accuracy:.4f})')
+    X_test = joblib.load(X_TEST_TFIDF_PATH)
+    y_test = joblib.load(Y_TEST_PATH)
 
-if __name__ == '__main__':
-    evaluate_model()
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+
+    models = {
+        "Logistic Regression": "logistic_regression.pkl",
+        "Naive Bayes": "naive_bayes.pkl",
+        "Linear SVM": "linear_svm.pkl"
+    }
+
+    with open(METRICS_PATH, "w") as f:
+        for name, file in models.items():
+            model = joblib.load(os.path.join(MODELS_DIR, file))
+            y_pred = model.predict(X_test)
+
+            acc = accuracy_score(y_test, y_pred)
+            precision = precision_score(y_test, y_pred, average="weighted")
+            recall = recall_score(y_test, y_pred, average="weighted")
+            f1 = f1_score(y_test, y_pred, average="weighted")
+            cm = confusion_matrix(y_test, y_pred)
+
+            # Write to file
+            f.write(f"\n{name}\n")
+            f.write(f"Accuracy  : {acc:.4f}\n")
+            f.write(f"Precision : {precision:.4f}\n")
+            f.write(f"Recall    : {recall:.4f}\n")
+            f.write(f"F1-score  : {f1:.4f}\n")
+            f.write("Confusion Matrix:\n")
+            f.write(str(cm) + "\n")
+            f.write("\nClassification Report:\n")
+            f.write(classification_report(y_test, y_pred))
+            f.write("\n" + "-"*60 + "\n")
+
+            # Print to terminal
+            print(f"\n{name}")
+            print(f"Accuracy  : {acc:.4f}")
+            print(f"Precision : {precision:.4f}")
+            print(f"Recall    : {recall:.4f}")
+            print(f"F1-score  : {f1:.4f}")
