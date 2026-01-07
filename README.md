@@ -100,7 +100,7 @@ Multiple models were trained to compare performance and select the most suitable
 
 ## Final Result Summary
 
-Logistic Regression (Final Selected Model)
+## Logistic Regression (Final Selected Model)
   
   - Accuracy: 92.21%
 
