@@ -116,7 +116,7 @@ Confusion Matrix
  [  8 358   7]
  [ 18  14  54]]
 ```
-## Explanation:
+Explanation:
 Logistic Regression performs very well on business and entertainment categories.
 The technology category has fewer samples and overlaps with business-related content, which leads to some misclassification.
 Overall, Logistic Regression provides the most balanced and stable performance.
