@@ -55,7 +55,6 @@ news_classification_project/
 ├── results/
 │   └── metrics.txt                     # Evaluation metrics for all models
 ├── src/
-│   ├── __pycache__/
 │   ├── config.py                       # Configuration and constants
 │   ├── data_preprocessing.py           # Data loading and text cleaning
 │   ├── evaluate.py                     # Model evaluation and metrics
