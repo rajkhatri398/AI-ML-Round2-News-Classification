@@ -75,18 +75,18 @@ news_classification_project/
    pip install -r requirements.txt
    
 2. Ensure the dataset is placed at:
-
+   ```
    data/raw/bbc_news.csv
+   ```
 
-
-3. Run the complete pipeline:
-
+4. Run the complete pipeline:
+   ```bash
    python main.py
 
 
 This command performs preprocessing, feature engineering, model training, and evaluation sequentially.
 
-##Models Used
+## Models Used
 
 The following Machine Learning models were implemented and compared:
 
@@ -98,7 +98,7 @@ The following Machine Learning models were implemented and compared:
 
 Multiple models were trained to compare performance and select the most suitable model.
 
-##Final Result Summary
+## Final Result Summary
 
 Logistic Regression (Final Selected Model)
 
@@ -111,34 +111,34 @@ Recall: 92.21%
 F1-score: 92.16%
 
 Confusion Matrix
-
+```
 [[499   8  22]
  [  8 358   7]
  [ 18  14  54]]
-
-##Explanation:
+```
+## Explanation:
 Logistic Regression performs very well on business and entertainment categories.
 The technology category has fewer samples and overlaps with business-related content, which leads to some misclassification.
 Overall, Logistic Regression provides the most balanced and stable performance.
 
-##Naive Bayes
+## Naive Bayes
 
 Accuracy: 89.78%
 
 Naive Bayes performs well on majority classes but struggles with the technology category due to overlapping vocabulary and class imbalance.
 
-##Linear SVM
+## Linear SVM
 
 Accuracy: 91.80%
 
 Linear SVM shows strong performance on high-dimensional text data but is slightly less stable than Logistic Regression for minority classes.
 
-##Conclusion
+## Conclusion
 
 Logistic Regression was selected as the final model as it achieved the highest accuracy and provided the best balance between precision, recall, and F1-score.
 The project demonstrates the importance of proper preprocessing, feature engineering, and evaluation when working with real-world text datasets.
 
-##Assignment Status
+## Assignment Status
 
 Assignment: AI/ML Round-2 – News Classification
 
@@ -148,7 +148,7 @@ Evaluation Metrics Used: Accuracy, Precision, Recall, F1-score, Confusion Matrix
 
 Status: ✅ All assignment requirements satisfied
 
-##Final Notes
+## Final Notes
 
 Category filtering was a deliberate design choice to ensure balanced training.
 
