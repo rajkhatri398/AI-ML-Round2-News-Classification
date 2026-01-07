@@ -138,24 +138,9 @@ Linear SVM shows strong performance on high-dimensional text data but is slightl
 Logistic Regression was selected as the final model as it achieved the highest accuracy and provided the best balance between precision, recall, and F1-score.
 The project demonstrates the importance of proper preprocessing, feature engineering, and evaluation when working with real-world text datasets.
 
-## Assignment Status
-
-Assignment: AI/ML Round-2 – News Classification
-
-  - Pipeline Executable: Yes (python main.py)
-
-  - Evaluation Metrics Used: Accuracy, Precision, Recall, F1-score, Confusion Matrix
-
-   - Status: ✅ All assignment requirements satisfied
-
-## Final Notes
-
-  - Category filtering was a deliberate design choice to ensure balanced training.
-
-  - All models were trained on the same preprocessed data for fair comparison.
-
-  - The vectorizer was fitted only on training data to avoid data leakage.
-
-  - Results are reproducible using a fixed random state.
+## Final Summary
+```
+This project implements a complete machine learning pipeline for classifying BBC news articles using NLP techniques. News categories were initially selected as business, politics, sport, technology, and entertainment; however, categories with very few samples such as politics and sport were filtered out during preprocessing to ensure stable training. Dominant categories like world and health were tested but excluded in the final setup due to class imbalance. After TF-IDF feature extraction, multiple models were trained and evaluated, with Logistic Regression achieving the best balanced performance at around 92% accuracy. Overall, the project demonstrates strong fundamentals in text preprocessing, category selection, model comparison, and reproducible ML workflows.
+```
 
 
