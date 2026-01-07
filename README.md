@@ -150,12 +150,12 @@ Assignment: AI/ML Round-2 – News Classification
 
 ## Final Notes
 
-Category filtering was a deliberate design choice to ensure balanced training.
+  - Category filtering was a deliberate design choice to ensure balanced training.
 
-All models were trained on the same preprocessed data for fair comparison.
+  - All models were trained on the same preprocessed data for fair comparison.
 
-The vectorizer was fitted only on training data to avoid data leakage.
+  - The vectorizer was fitted only on training data to avoid data leakage.
 
-Results are reproducible using a fixed random state.
+  - Results are reproducible using a fixed random state.
 
 
