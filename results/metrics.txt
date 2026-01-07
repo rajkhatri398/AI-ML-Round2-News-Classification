@@ -1,0 +1,21 @@
+=== MODEL EVALUATION RESULTS ===
+
+Logistic Regression Model:
+Accuracy: 0.9577464788732394
+Confusion Matrix:
+[[1290    0]
+ [  57    2]]
+
+Naive Bayes Model:
+Accuracy: 0.9562638991845812
+Confusion Matrix:
+[[1290    0]
+ [  59    0]]
+
+Linear SVM Model:
+Accuracy: 0.9644180874722016
+Confusion Matrix:
+[[1289    1]
+ [  47   12]]
+
+Best Model: svm (Accuracy: 0.9644)
