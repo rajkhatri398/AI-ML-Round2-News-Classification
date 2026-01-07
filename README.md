@@ -1,99 +1,97 @@
-BBC News Article Classification Using Machine Learning
-Project Overview
+# BBC News Article Classification Using Machine Learning
 
-This project implements an end-to-end Machine Learning pipeline to classify BBC news articles into different categories using Natural Language Processing techniques. The pipeline covers data preprocessing, feature extraction using TF-IDF, model training, and evaluation using standard classification metrics.
+## Project Overview
+This project implements an end-to-end Machine Learning pipeline to classify BBC news articles into different categories using Natural Language Processing techniques.  
+The pipeline includes data preprocessing, feature extraction using TF-IDF, model training, and evaluation using standard classification metrics.
 
-Dataset Source
+---
 
-Dataset Name: BBC News Dataset
+## Dataset Source
+- **Dataset Name:** BBC News Dataset  
+- **Source:** Kaggle (Public Dataset)  
+- **Dataset File:** `data/raw/bbc_news.csv`
 
-Source: Kaggle (Public Dataset)
+The dataset contains news article titles, descriptions, and article URLs. Since explicit category labels are not provided, categories are derived from the BBC article URLs.
 
-Dataset File: data/raw/bbc_news.csv
+---
 
-The dataset contains news article titles, descriptions, publication details, and article URLs. Since explicit category labels are not provided, categories are derived from the BBC article URLs.
-
-Categories Used and Filtering Explanation
-
+## Categories Used and Filtering Explanation
 Initially, the following categories were selected during preprocessing:
 
-business
+business, politics, sport, technology, entertainment
 
-politics
+After extracting categories from URLs, some categories such as **politics** and **sport** contained very few samples.  
+To avoid class imbalance and unstable model training, categories with insufficient samples were automatically filtered out.
 
-sport
+As a result, the final model was trained and evaluated on the following well-represented categories:
 
-technology
+- Business  
+- Entertainment  
+- Technology  
 
-entertainment
+Categories such as **world** and **health** were also experimented with. While these categories are common in BBC news, including them introduced strong class imbalance and semantic overlap, which slightly reduced overall accuracy. Therefore, they were excluded in the final configuration to maintain stable and reliable performance.
 
-After extracting categories from URLs, some categories such as politics and sport contained very few samples. To avoid class imbalance and unstable training, categories with insufficient samples were filtered out automatically.
+---
 
-The final model was trained and evaluated on the following well-represented categories:
+## Folder Structure Explanation
 
-Business
-
-Entertainment
-
-Technology
-
-Categories like world and health were also experimented with. Although they are common in BBC news, including them introduced strong class imbalance and semantic overlap, which slightly reduced accuracy. Therefore, they were excluded in the final configuration to maintain stable and reliable performance.
-
-Folder Structure Explanation
 news_classification_project/
 │
 ├── data/
-│   ├── raw/
-│   │   └── bbc_news.csv
-│   └── processed/
+│ ├── raw/
+│ │ └── bbc_news.csv
+│ └── processed/
 │
 ├── src/
-│   ├── config.py
-│   ├── data_preprocessing.py
-│   ├── feature_engineering.py
-│   ├── train.py
-│   └── evaluate.py
+│ ├── config.py # Centralized configuration
+│ ├── data_preprocessing.py # Data loading and text cleaning
+│ ├── feature_engineering.py # TF-IDF feature extraction
+│ ├── train.py # Model training
+│ └── evaluate.py # Model evaluation
 │
-├── models/
+├── models/ # Saved trained models
 ├── results/
-│   └── metrics.txt
+│ └── metrics.txt # Evaluation metrics
 │
-├── main.py
+├── main.py # Pipeline entry point
 ├── requirements.txt
 └── README.md
 
-Steps to Run the Project
 
-Install required dependencies:
+---
 
-pip install -r requirements.txt
+## Steps to Run the Project
+
+1. Install required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   
+2. Ensure the dataset is placed at:
+
+   data/raw/bbc_news.csv
 
 
-Ensure the dataset is placed at:
+3. Run the complete pipeline:
 
-data/raw/bbc_news.csv
-
-
-Run the complete pipeline:
-
-python main.py
+   python main.py
 
 
 This command performs preprocessing, feature engineering, model training, and evaluation sequentially.
 
-Model Used
+##Models Used
 
 The following Machine Learning models were implemented and compared:
 
-Logistic Regression
+   Logistic Regression
 
-Naive Bayes
+   Naive Bayes
 
-Linear Support Vector Machine (Linear SVM)
+   Linear Support Vector Machine (Linear SVM)
 
 Multiple models were trained to compare performance and select the most suitable model.
 
-Final Result Summary
+##Final Result Summary
+
 Logistic Regression (Final Selected Model)
 
 Accuracy: 92.21%
@@ -104,32 +102,35 @@ Recall: 92.21%
 
 F1-score: 92.16%
 
-Confusion Matrix:
+Confusion Matrix
 
 [[499   8  22]
  [  8 358   7]
  [ 18  14  54]]
 
+##Explanation:
+Logistic Regression performs very well on business and entertainment categories.
+The technology category has fewer samples and overlaps with business-related content, which leads to some misclassification.
+Overall, Logistic Regression provides the most balanced and stable performance.
 
-Logistic Regression achieved the best balance across all evaluation metrics and handled class imbalance more effectively than the other models.
-
-Naive Bayes
+##Naive Bayes
 
 Accuracy: 89.78%
 
-Naive Bayes performs well on majority classes but struggles with the minority technology category due to overlapping vocabulary.
+Naive Bayes performs well on majority classes but struggles with the technology category due to overlapping vocabulary and class imbalance.
 
-Linear SVM
+##Linear SVM
 
 Accuracy: 91.80%
 
 Linear SVM shows strong performance on high-dimensional text data but is slightly less stable than Logistic Regression for minority classes.
 
-Conclusion
+##Conclusion
 
-Logistic Regression was selected as the final model as it achieved the highest accuracy and provided the best balance between precision, recall, and F1-score. This project demonstrates the importance of proper preprocessing, feature engineering, and evaluation when working with real-world text datasets.
+Logistic Regression was selected as the final model as it achieved the highest accuracy and provided the best balance between precision, recall, and F1-score.
+The project demonstrates the importance of proper preprocessing, feature engineering, and evaluation when working with real-world text datasets.
 
-Assignment Status
+##Assignment Status
 
 Assignment: AI/ML Round-2 – News Classification
 
@@ -139,18 +140,14 @@ Evaluation Metrics Used: Accuracy, Precision, Recall, F1-score, Confusion Matrix
 
 Status: ✅ All assignment requirements satisfied
 
-✅ Final Note
+##Final Notes
 
-The filtering of categories and exclusion of dominant classes like world and health was a deliberate design choice to ensure balanced training, fair evaluation, and meaningful model comparison.
+Category filtering was a deliberate design choice to ensure balanced training.
 
-If you want, next I can:
+All models were trained on the same preprocessed data for fair comparison.
 
-✔️ Reduce this further if the evaluator wants a very short README
+The vectorizer was fitted only on training data to avoid data leakage.
 
-✔️ Match it line-by-line with the PDF checklist
+Results are reproducible using a fixed random state.
 
-✔️ Help you draft the submission message/email
 
-✔️ Prepare interview questions from this exact README
-
-Just tell me 👍
