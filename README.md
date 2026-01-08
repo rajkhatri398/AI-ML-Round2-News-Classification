@@ -140,6 +140,35 @@ The project demonstrates the importance of proper preprocessing, feature enginee
 
 ## Final Summary
 
+This accuracy can be acheived if we use valid categories like 
+```
+[
+    "business",
+    "politics",
+    "sport",
+    "entertainment",
+    "health",
+    "world"
+]
+```
+## Logistic Regression
+Accuracy  : 0.9285
+Precision : 0.9306
+Recall    : 0.9285
+F1-score  : 0.9291
+
+## Naive Bayes
+Accuracy  : 0.8688
+Precision : 0.8750
+Recall    : 0.8688
+F1-score  : 0.8550
+
+## Linear SVM
+Accuracy  : 0.9248
+Precision : 0.9246
+Recall    : 0.9248
+F1-score  : 0.9246
+
 This project implements a complete machine learning pipeline for classifying BBC news articles using NLP techniques. News categories were initially selected as business, politics, sport, technology, and entertainment; however, categories with very few samples such as politics and sport were filtered out during preprocessing to ensure stable training. Dominant categories like world and health were tested but excluded in the final setup due to class imbalance. After TF-IDF feature extraction, multiple models were trained and evaluated, with Logistic Regression achieving the best balanced performance at around 92% accuracy. Overall, the project demonstrates strong fundamentals in text preprocessing, category selection, model comparison, and reproducible ML workflows.
 
 
